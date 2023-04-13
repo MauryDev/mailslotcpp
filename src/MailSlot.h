@@ -31,6 +31,8 @@ namespace std
 		mailslotserver();
 		mailslotserver(std::wstring&& name,uint32_t nMaxMessageSize=0, uint32_t lReadTimeout=-1);
 		mailslotserver(std::string&& name, uint32_t nMaxMessageSize=0, uint32_t lReadTimeout=-1);
+		mailslotserver(std::wstring& name, uint32_t nMaxMessageSize = 0, uint32_t lReadTimeout = -1);
+		mailslotserver(std::string& name, uint32_t nMaxMessageSize = 0, uint32_t lReadTimeout = -1);
 
 		uint32_t Read(void* bf, int msgSize);
 		std::string ReadString();
@@ -43,9 +45,12 @@ namespace std
 		mailslotclient();
 		mailslotclient(std::wstring&& name);
 		mailslotclient(std::string&& name);
-
+		mailslotclient(std::wstring& name);
+		mailslotclient(std::string& name);
 		uint32_t Write(void* bf, int msgSize);
 		void WriteString(std::string&& str);
+		void WriteString(std::string& str);
+
 		template <typename T>
 		void Write(T&& val);
 	};
