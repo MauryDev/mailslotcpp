@@ -9,21 +9,21 @@ std::mailslot::mailslot()
 
 std::mailslotserver::mailslotserver() : mailslot() {}
 
-std::mailslotserver::mailslotserver(std::wstring&& name)
+std::mailslotserver::mailslotserver(std::wstring&& name, uint32_t nMaxMessageSize, uint32_t lReadTimeout)
 {
     auto slotname = L"\\\\.\\mailslot\\" + name;
     handle = CreateMailslotW(slotname.c_str(),
-        0,                             // no maximum message size 
-        MAILSLOT_WAIT_FOREVER,         // no time-out for operations 
+        nMaxMessageSize,                             // no maximum message size 
+        lReadTimeout,         // no time-out for operations 
         (LPSECURITY_ATTRIBUTES)NULL); // default security
 }
 
-std::mailslotserver::mailslotserver(std::string&& name)
+std::mailslotserver::mailslotserver(std::string&& name, uint32_t nMaxMessageSize, uint32_t lReadTimeout)
 {
     auto slotname = "\\\\.\\mailslot\\" + name;
     handle = CreateMailslotA(slotname.c_str(),
-        0,                             // no maximum message size 
-        MAILSLOT_WAIT_FOREVER,         // no time-out for operations 
+        nMaxMessageSize,                             // no maximum message size 
+        lReadTimeout,         // no time-out for operations 
         (LPSECURITY_ATTRIBUTES)NULL); // default security
 }
 
