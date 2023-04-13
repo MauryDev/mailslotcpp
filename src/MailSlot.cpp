@@ -27,6 +27,11 @@ std::mailslotserver::mailslotserver(std::string&& name, uint32_t nMaxMessageSize
         (LPSECURITY_ATTRIBUTES)NULL); // default security
 }
 
+
+std::mailslotserver::mailslotserver(std::wstring& name, uint32_t nMaxMessageSize, uint32_t lReadTimeout) : mailslotserver(std::move(name), nMaxMessageSize, lReadTimeout) {}
+
+std::mailslotserver::mailslotserver(std::string& name, uint32_t nMaxMessageSize, uint32_t lReadTimeout) : mailslotserver(std::move(name), nMaxMessageSize, lReadTimeout) {}
+
 std::mailslotclient::mailslotclient() : mailslot() {};
 
 std::mailslotclient::mailslotclient(std::wstring&& name)
@@ -55,6 +60,10 @@ std::mailslotclient::mailslotclient(std::string&& name)
         FILE_ATTRIBUTE_NORMAL,
         0);
 }
+
+std::mailslotclient::mailslotclient(std::wstring& name) : mailslotclient(std::move(name)) {}
+
+std::mailslotclient::mailslotclient(std::string& name) : mailslotclient(std::move(name)) {}
 
 
 bool std::mailslot::isValid()
@@ -125,6 +134,10 @@ uint32_t std::mailslotclient::Write(void* bf, int msgSize)
 void std::mailslotclient::WriteString(std::string&& str)
 {
     Write((void*)str.c_str(), str.size());
+}
+
+void std::mailslotclient::WriteString(std::string& str) {
+    WriteString(std::move(str));
 }
 
 
