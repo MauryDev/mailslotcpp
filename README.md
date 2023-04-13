@@ -1,0 +1,2 @@
+# mailslotcpp
+MailSlot for C++
