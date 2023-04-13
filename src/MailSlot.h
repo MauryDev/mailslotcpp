@@ -29,8 +29,8 @@ namespace std
 	{
 	public:
 		mailslotserver();
-		mailslotserver(std::wstring&& name);
-		mailslotserver(std::string&& name);
+		mailslotserver(std::wstring&& name,uint32_t nMaxMessageSize=0, uint32_t lReadTimeout=-1);
+		mailslotserver(std::string&& name, uint32_t nMaxMessageSize=0, uint32_t lReadTimeout=-1);
 
 		uint32_t Read(void* bf, int msgSize);
 		std::string ReadString();
