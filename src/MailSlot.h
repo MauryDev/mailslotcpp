@@ -4,7 +4,7 @@
 #include <string>
 namespace std
 {
-	class mailslot
+	class mailslotview
 	{
 	public:
 		struct info
@@ -15,7 +15,7 @@ namespace std
 			uint32_t ReadTimeout;
 		};
 
-		mailslot();
+		mailslotview(HANDLE _handle = 0);
 
 		bool isValid();
 		info GetInfo();
@@ -25,6 +25,13 @@ namespace std
 	protected:
 		HANDLE handle;
 	};
+	class mailslot: public mailslotview
+	{
+	public:
+		mailslot(HANDLE _handle = 0);
+		~mailslot();
+	};
+
 	class mailslotserver : public mailslot
 	{
 	public:
