@@ -2,7 +2,7 @@
 
 
 
-std::mailslot::mailslot()
+std::mailslotview::mailslotview(HANDLE _handle)
 {
     handle = NULL;
 }
@@ -66,7 +66,7 @@ std::mailslotclient::mailslotclient(std::wstring& name) : mailslotclient(std::mo
 std::mailslotclient::mailslotclient(std::string& name) : mailslotclient(std::move(name)) {}
 
 
-bool std::mailslot::isValid()
+bool std::mailslotview::isValid()
 {
     if (handle == INVALID_HANDLE_VALUE)
     {
@@ -76,7 +76,7 @@ bool std::mailslot::isValid()
     return TRUE;
 }
 
-std::mailslot::info std::mailslot::GetInfo()
+std::mailslot::info std::mailslotview::GetInfo()
 {
     info t = {};
     auto success = GetMailslotInfo(handle, (DWORD*)&t.MaxMessageSize, (DWORD*)&t.NextSize, (DWORD*)&t.MessageCount, (DWORD*)&t.ReadTimeout);
@@ -87,7 +87,7 @@ std::mailslot::info std::mailslot::GetInfo()
     return t;
 }
 
-void std::mailslot::SetInfo(uint32_t readtimeout)
+void std::mailslotview::SetInfo(uint32_t readtimeout)
 {
     auto success = SetMailslotInfo(handle, readtimeout);
     if (success == FALSE)
@@ -146,7 +146,7 @@ void std::mailslotclient::WriteString(std::string& str) {
 
 
 
-void std::mailslot::Close()
+void std::mailslotview::Close()
 {
     if (handle != NULL)
     {
@@ -155,4 +155,13 @@ void std::mailslot::Close()
     }
 }
 
+std::mailslot::mailslot(HANDLE _handle) : mailslotview(handle) {}
 
+std::mailslot::~mailslot()
+{
+    if (handle != NULL)
+    {
+        CloseHandle(handle);
+        handle = NULL;
+    }
+}
